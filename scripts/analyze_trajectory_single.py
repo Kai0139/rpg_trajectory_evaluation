@@ -43,9 +43,11 @@ def analyze_multiple_trials(results_dir, est_type, n_trials,
                                            est_type, suffix)
             Trajectory.remove_files_in_save_dir(results_dir, est_type,
                                                 match_base_fn)
+        # nm_est=kNsToEstFnMapping[est_type] + suffix + '.'+kFnExt,
         traj = Trajectory(
             results_dir, est_type=est_type, suffix=suffix,
-            nm_est=kNsToEstFnMapping[est_type] + suffix + '.'+kFnExt,
+            nm_gt="20220216_garden_day_gt.txt",
+            nm_est="garden_day_t1.txt", 
             nm_matches=match_base_fn,
             preset_boxplot_distances=preset_boxplot_distances,
             preset_boxplot_percentages=preset_boxplot_percentages)
