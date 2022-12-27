@@ -35,20 +35,29 @@ def extract(bagfile, pose_topic, msg_type, out_filename):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='''
-    Extracts IMU messages from bagfile.
-    ''')
-    parser.add_argument('bag', help='Bagfile')
-    parser.add_argument('topic', help='Topic')
-    parser.add_argument('--msg_type', default='PoseStamped',
-                        help='message type')
-    parser.add_argument('--output', default='stamped_poses.txt',
-                        help='output filename')
-    args = parser.parse_args()
+    cmd_ln = False
+    if cmd_ln:
+        parser = argparse.ArgumentParser(description='''
+        Extracts IMU messages from bagfile.
+        ''')
+        parser.add_argument('bag', help='Bagfile')
+        parser.add_argument('topic', help='Topic')
+        parser.add_argument('--msg_type', default='PoseStamped',
+                            help='message type')
+        parser.add_argument('--output', default='stamped_poses.txt',
+                            help='output filename')
+        args = parser.parse_args()
 
-    out_dir = os.path.dirname(os.path.abspath(args.bag))
-    out_fn = os.path.join(out_dir, args.output)
+        out_dir = os.path.dirname(os.path.abspath(args.bag))
+        out_fn = os.path.join(out_dir, args.output)
 
-    print('Extract pose from bag '+args.bag+' in topic ' + args.topic)
-    print('Saving to file '+out_fn)
-    extract(args.bag, args.topic, args.msg_type, out_fn)
+        print('Extract pose from bag '+args.bag+' in topic ' + args.topic)
+        print('Saving to file '+out_fn)
+        extract(args.bag, args.topic, args.msg_type, out_fn)
+    else:
+        home_dir = os.environ["HOME"]
+        bag_dir = home_dir + "/bags/garden_day/results/" + "garden_day_t1_2022-12-27-15-12-31.bag"
+        topic = "/ov_msckf/poseimu"
+        msg_type = "PoseWithCovarianceStamped"
+        out_fn = home_dir + "/bags/garden_day/results/" + "garden_day_t1.txt"
+        extract(bag_dir, topic, msg_type, out_fn)
