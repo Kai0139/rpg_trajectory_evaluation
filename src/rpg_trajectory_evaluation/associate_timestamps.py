@@ -43,10 +43,12 @@ def read_timestamps(filename):
     """
     file = open(filename)
     data = file.read()
+    # print("\nsome data: {}\n".format(data[0:100]))
     lines = data.replace(",", " ").replace("\t", " ").split("\n")
     data_list = [[v.strip() for v in line.split(" ") if v.strip() != ""]
                  for line in lines if len(line) > 0 and line[0] != "#"]
     stamps = [float(v[0]) for v in data_list]
+    print(stamps[0])
     return stamps
 
 
@@ -78,8 +80,17 @@ def associate(first_stamps, second_stamps, offset, max_difference):
 
 
 def read_files_and_associate(first_file, second_file, offset, max_diff):
+    # est first, gt second
     first_stamps = read_timestamps(first_file)
     second_stamps = read_timestamps(second_file)
+    t_diff = first_stamps[0] - second_stamps[0]
+    print("stamp diff: {}".format(t_diff))
+
+    for i in range(len(second_stamps)):
+        second_stamps[i] = second_stamps[i] + t_diff
+
+    print("est begins at: {}".format(first_stamps[0]))
+    print("gt begins at: {}".format(second_stamps[0]))
 
     return associate(first_stamps, second_stamps, offset, max_diff)
 

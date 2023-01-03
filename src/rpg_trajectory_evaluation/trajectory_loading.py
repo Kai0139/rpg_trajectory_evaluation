@@ -15,6 +15,8 @@ def load_estimate_and_associate(fn_gt,
                                 max_diff=0.02,
                                 start_t_sec=-float('inf'),
                                 end_t_sec=float('inf')):
+    print("load gt path: {}".format(fn_gt))
+    print("load est path: {}".format(fn_es))
     matches = np.array([])
     if os.path.exists(fn_matches):
         matches = np.loadtxt(fn_matches, dtype=int)

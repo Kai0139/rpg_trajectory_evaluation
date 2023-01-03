@@ -36,7 +36,7 @@ class Trajectory:
 
         assert os.path.exists(results_dir),\
             "Specified directory {0} does not exist.".format(results_dir)
-        assert align_type in ['first_frame', 'sim3', 'se3']
+        assert align_type in ['first_frame', 'sim3', 'se3', 'posyaw', 'none']
 
         # information of the results, useful as labels
         self.platform = platform

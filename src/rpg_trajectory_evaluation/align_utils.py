@@ -37,7 +37,7 @@ def alignPositionYawSingle(p_es, p_gt, q_es, q_gt):
     return R, t
 
 
-def alignPositionYaw(p_es, p_gt, q_es, q_gt, n_aligned=1):
+def alignPositionYaw(p_es, p_gt, q_es, q_gt, n_aligned=1, first_frame_t=True):
     if n_aligned == 1:
         R, t = alignPositionYawSingle(p_es, p_gt, q_es, q_gt)
         return R, t
@@ -47,7 +47,8 @@ def alignPositionYaw(p_es, p_gt, q_es, q_gt, n_aligned=1):
         gt_pos = p_gt[idxs, 0:3]
         _, R, t = align.align_umeyama(gt_pos, est_pos, known_scale=True,
                                       yaw_only=True)  # note the order
-        t = np.array(t)
+        Rf, tf = alignPositionYawSingle(p_es, p_gt, q_es, q_gt)
+        t = np.array(tf)
         t = t.reshape((3, ))
         R = np.array(R)
         return R, t

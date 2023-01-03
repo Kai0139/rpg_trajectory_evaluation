@@ -21,6 +21,13 @@ rc('text', usetex=True)
 
 FORMAT = '.pdf'
 
+result_path = "/home/iadc02/bags/viobot_experiments/"
+result_folder = "day_out_1"
+resdir = result_path + result_folder
+
+rs_pose = result_folder + "_rs.txt"
+viobot_pose = result_folder + "_viobot.txt"
+
 
 def analyze_multiple_trials(results_dir, est_type, n_trials,
                             recalculate_errors=False,
@@ -46,8 +53,9 @@ def analyze_multiple_trials(results_dir, est_type, n_trials,
         # nm_est=kNsToEstFnMapping[est_type] + suffix + '.'+kFnExt,
         traj = Trajectory(
             results_dir, est_type=est_type, suffix=suffix,
-            nm_gt="20220216_garden_day_gt.txt",
-            nm_est="garden_day_t1.txt", 
+            align_type='posyaw',
+            nm_gt=rs_pose,
+            nm_est=viobot_pose, 
             nm_matches=match_base_fn,
             preset_boxplot_distances=preset_boxplot_distances,
             preset_boxplot_percentages=preset_boxplot_percentages)
@@ -78,7 +86,8 @@ if __name__ == '__main__':
         description='''Analyze trajectory estimate in a folder.''')
     parser.add_argument(
         'result_dir', type=str,
-        help="Folder containing the groundtruth and the estimate.")
+        help="Folder containing the groundtruth and the estimate.",
+        default=resdir)
     parser.add_argument(
         '--plots_dir', type=str,
         help="Folder to output plots",

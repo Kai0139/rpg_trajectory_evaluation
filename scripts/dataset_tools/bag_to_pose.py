@@ -28,6 +28,13 @@ def extract(bagfile, pose_topic, msg_type, out_filename):
                          msg.pose.position.z,
                          msg.pose.orientation.x, msg.pose.orientation.y,
                          msg.pose.orientation.z, msg.pose.orientation.w))
+            elif msg_type == "Odometry" and topic == pose_topic:
+                f.write('%.12f %.12f %.12f %.12f %.12f %.12f %.12f %.12f\n' %
+                        (msg.header.stamp.to_sec(),
+                         msg.pose.pose.position.x, msg.pose.pose.position.y,
+                         msg.pose.pose.position.z,
+                         msg.pose.pose.orientation.x, msg.pose.pose.orientation.y,
+                         msg.pose.pose.orientation.z, msg.pose.pose.orientation.w))
             else:
                 assert False, "Unknown message type"
             n += 1
@@ -56,8 +63,9 @@ if __name__ == '__main__':
         extract(args.bag, args.topic, args.msg_type, out_fn)
     else:
         home_dir = os.environ["HOME"]
-        bag_dir = home_dir + "/bags/garden_day/results/" + "garden_day_t1_2022-12-27-15-12-31.bag"
-        topic = "/ov_msckf/poseimu"
-        msg_type = "PoseWithCovarianceStamped"
-        out_fn = home_dir + "/bags/garden_day/results/" + "garden_day_t1.txt"
+        bag_dir = home_dir + "/bags/viobot_experiments/day_out_1/" + "day_out_1.bag"
+        topic = "/PR_BE/odometry"
+        # topic = "/camera/odom/sample"
+        msg_type = "Odometry"
+        out_fn = home_dir + "/bags/viobot_experiments/day_out_1/" + "day_out_1_viobot.txt"
         extract(bag_dir, topic, msg_type, out_fn)
